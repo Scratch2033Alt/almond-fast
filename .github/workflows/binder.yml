@@ -1,0 +1,28 @@
+name: Build Notebook Container
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@master
+
+    - name: Debug Docker & Buildx
+      run: |
+        echo "Checking Docker Version..."
+        docker version
+
+        echo "Checking Docker Buildx Version..."
+        docker buildx version
+
+        echo "Checking Available Builders..."
+        docker buildx ls
+
+    - name: Update Jupyter dependencies with repo2docker
+      uses: machine-learning-apps/repo2docker-action@master
+      with:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        BINDER_CACHE: true
