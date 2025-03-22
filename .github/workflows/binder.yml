@@ -22,9 +22,22 @@ jobs:
         
     - name: Debug Docker Username
       run: |
+         echo "DOCKER_USERNAME Length: ${#DOCKER_USERNAME}"
+         echo "DOCKER_PASSWORD Length: ${#DOCKER_PASSWORD}"
+         if [[ -z "${{ secrets.DOCKER_PASSWORD }}" ]]; then
+            echo "❌ Secret DOCKER_PASSWORD is missing or empty!"
+            exit 1
+         else
+            echo "✅ Secret DOCKER_PASSWORD is set!"
+         fi
          echo "Logging in as: ${{ secrets.DOCKER_USERNAME }}"
          docker logout
          docker login docker.io -u "${{ secrets.DOCKER_USERNAME }}" --password "${{ secrets.DOCKER_PASSWORD }}"
+
+  env:
+    DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+    DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
 
     - name: Update Jupyter dependencies with repo2docker
       uses: machine-learning-apps/repo2docker-action@master
