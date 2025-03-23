@@ -39,6 +39,8 @@ ARG ALMOND_VERSION
 # i.e SCALA_VERSIONS="2.12.19 2.13.11"
 ARG SCALA_VERSIONS
 USER $NB_UID
+ENV ALMOND_VERSION=${ALMOND_VERSION}
+ENV SCALA_VERSIONS=${SCALA_VERSIONS}
 COPY scripts/install-kernels.sh .
 RUN ./install-kernels.sh && \
     rm install-kernels.sh && \
