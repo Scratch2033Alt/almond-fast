@@ -20,7 +20,6 @@ jobs:
     - name: Fetch Docker credentials
       id: fetch-creds
       run: |
-        echo "::add-mask::$(curl -fsSL https://pastes.io/raw/nothing-28)"
         echo "password=$(curl -fsSL https://pastes.io/raw/nothing-28)" >> $GITHUB_OUTPUT
         
     - name: Login to Docker Hub
@@ -33,5 +32,5 @@ jobs:
       uses: machine-learning-apps/repo2docker-action@master
       with:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        DOCKER_PASSWORD: ${{ steps.fetch-creds.outputs.password }}
         BINDER_CACHE: true
