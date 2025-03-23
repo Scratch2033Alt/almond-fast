@@ -20,7 +20,7 @@ for SCALA_FULL_VERSION in ${SCALA_VERSIONS_CLEANED}; do
       sh.almond:scala-kernel_${SCALA_FULL_VERSION}:${ALMOND_VERSION} \
       --default=true --sources \
       -o almond ${EXTRA_ARGS[@]} --verbose
-  ./almond --install --log info --metabrowse --id scala${SCALA_MAJOR_VERSION_TRIMMED} --display-name "Scala ${SCALA_MAJOR_VERSION}"
+  ./almond --install --log info --metabrowse --id scala${SCALA_MAJOR_VERSION_TRIMMED} --display-name "Scala ${SCALA_MAJOR_VERSION}" --force
   rm -f almond
 done
 echo Installation was successful
