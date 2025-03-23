@@ -3,7 +3,8 @@ set -eu
 
 [ -z "$SCALA_VERSIONS" ] && { echo "SCALA_VERSIONS is empty" ; exit 1; }
 [ -z "$ALMOND_VERSION" ] && { echo "ALMOND_VERSION is empty" ; exit 1; }
-for SCALA_FULL_VERSION in ${SCALA_VERSIONS}; do
+SCALA_VERSIONS_CLEANED=$(echo "$SCALA_VERSIONS" | sed 's/-\([0-9]\)/ \1/g')
+for SCALA_FULL_VERSION in ${SCALA_VERSIONS_CLEANED}; do
   # remove patch version
   SCALA_MAJOR_VERSION=${SCALA_FULL_VERSION%.*}
   # remove all dots for the kernel id
