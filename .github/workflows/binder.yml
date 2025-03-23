@@ -25,10 +25,10 @@ jobs:
           password: ${{ secrets.DOCKPASS }}
 
     - name: Update Jupyter dependencies with repo2docker
-      uses: machine-learning-apps/repo2docker-action@master
+      uses: jupyterhub/repo2docker-action@0.2
       with:
         DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKPASS }}
-        BINDER_CACHE: true
+        BINDER_CACHE: false
         NOTEBOOK_USER: notjovyan
         REPO2DOCKER_EXTRA_ARGS: "--build-arg ALMOND_VERSION=0.13.11 --build-arg SCALA_VERSIONS=\"2.12.19 2.13.11\""
