@@ -42,6 +42,7 @@ USER $NB_UID
 ENV ALMOND_VERSION=${ALMOND_VERSION}
 ENV SCALA_VERSIONS=${SCALA_VERSIONS}
 COPY scripts/install-kernels.sh .
+RUN echo "ALMOND_VERSION=${ALMOND_VERSION}" && echo "SCALA_VERSIONS=${SCALA_VERSIONS}"
 RUN ./install-kernels.sh && \
     rm install-kernels.sh && \
     rm -rf .ivy2
