@@ -20,6 +20,10 @@ RUN apt-get -y update && \
 
 RUN curl -Lo /usr/local/bin/coursier https://github.com/coursier/coursier/releases/download/v2.0.0-RC3-2/coursier && \
     chmod +x /usr/local/bin/coursier
+RUN echo "Notebook user is $NB_USER"
+RUN rm -rf /home/${NB_USER}/almond-examples && \
+    git clone --depth=1 https://github.com/almond-sh/examples.git /home/${NB_USER}/almond-examples
+
 
 USER $NB_UID
 
