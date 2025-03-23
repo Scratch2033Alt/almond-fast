@@ -14,6 +14,7 @@ RUN apt-get -y update && \
     apt-get install --no-install-recommends -y \
       curl \
       openjdk-8-jre-headless \
+      git \
       ca-certificates-java && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
