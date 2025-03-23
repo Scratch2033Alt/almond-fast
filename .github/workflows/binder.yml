@@ -30,3 +30,4 @@ jobs:
         DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKPASS }}
         BINDER_CACHE: true
+        NOTEBOOK_USER: notjovyan
