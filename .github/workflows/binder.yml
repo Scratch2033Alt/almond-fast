@@ -31,4 +31,4 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKPASS }}
         BINDER_CACHE: true
         NOTEBOOK_USER: notjovyan
-        REPO2DOCKER_EXTRA_ARGS: "--build-arg ALMOND_VERSION=0.13.11 --build-arg SCALA_VERSIONS=2.13.11"
+        REPO2DOCKER_EXTRA_ARGS: "--build-arg ALMOND_VERSION=0.14.1 --build-arg SCALA_VERSIONS=2.13.11"
