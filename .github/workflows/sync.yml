@@ -33,6 +33,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .github/workflows/binder.yml .github/workflows/sync.yml
           git commit -m "Sync Fork"
+          git pull origin main --ff-only
           git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git main
 
       - name: Run Binder Workflow
@@ -51,6 +52,7 @@ jobs:
         run: |
           rm -rf ./*
           mv almond/* .
+          shopt -s dotglob
           mv almond/.* . || true  # Move hidden files
           rm -rf almond  # Cleanup
           ls -la
