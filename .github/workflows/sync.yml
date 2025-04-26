@@ -18,6 +18,7 @@ jobs:
 
       - name: Copy Workflows
         run: |
+          ls -la
           mkdir -p almond/.github/workflows
           cp binder.yml almond/.github/workflows/
           cp copy.yml almond/.github/workflows/
