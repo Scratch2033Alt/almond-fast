@@ -20,8 +20,8 @@ jobs:
         run: |
           ls -la
           mkdir -p almond/.github/workflows
-          cp binder.yml almond/.github/workflows/
-          cp copy.yml almond/.github/workflows/
+          cp .github/workflows/binder.yml almond/.github/workflows/
+          cp .github/workflows/sync.yml almond/.github/workflows/
           ls -la almond/.github/workflows/
 
       - name: Commit & Push Workflows
@@ -31,7 +31,7 @@ jobs:
           cd almond
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .github/workflows/binder.yml .github/workflows/script.yml
+          git add .github/workflows/binder.yml .github/workflows/sync.yml
           git commit -m "Sync Fork"
           git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git main
 
