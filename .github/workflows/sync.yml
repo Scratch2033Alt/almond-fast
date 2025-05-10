@@ -24,17 +24,60 @@ jobs:
           cp .github/workflows/sync.yml almond/.github/workflows/
           ls -la almond/.github/workflows/
 
-      - name: Commit & Push Workflows
+      - name: Commit & Push Workflow Changes in almond Directory
+        # This environment variable provides the token needed for pushing to the repository.
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cd almond
+          set -e
+
+          TARGET_DIR="almond"
+
+          # Check if the target directory exists.
+          if [ ! -d "$TARGET_DIR" ]; then
+            echo "Error: Directory '$TARGET_DIR' not found. Current path: $(pwd)"
+            echo "Please ensure the '$TARGET_DIR' directory exists, possibly via a checkout step with 'path: $TARGET_DIR' or by creating it."
+          fi
+
+          echo "Changing directory to '$TARGET_DIR'..."
+          cd "$TARGET_DIR"
+          echo "Successfully changed directory. Current path: $(pwd)"
+
+          echo "Configuring git user identity..."
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .github/workflows/binder.yml .github/workflows/sync.yml
-          git commit -m "Sync Fork"
-          git pull origin main --ff-only
-          git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git main
+
+          # Define the specific files within the TARGET_DIR to add and commit.
+          # These paths are relative to the TARGET_DIR (e.g., almond/.github/workflows/binder.yml).
+          FILES_TO_ADD=".github/workflows/binder.yml .github/workflows/sync.yml"
+          
+          echo "Attempting to stage files: $FILES_TO_ADD"
+          # Add the specified files.
+          # Ensure these files exist at these paths within the TARGET_DIR.
+          # For example, 'almond/.github/workflows/binder.yml'
+          git add $FILES_TO_ADD
+
+          echo "Checking for staged changes..."
+          # Check if there are any changes staged for commit.
+          # `git diff --staged --quiet` exits with 0 if no changes, 1 if there are changes.
+          if git diff --staged --quiet; then
+            echo "No changes to commit for the specified files in '$TARGET_DIR'."
+          else
+            echo "Changes detected. Creating commit..."
+            git commit -m "Sync Fork: Update workflow files in $TARGET_DIR"
+
+            echo "Pulling latest changes from 'origin main' with rebase..."
+            # This assumes 'origin' is the correct remote and 'main' is the target branch.
+            # This helps to minimize merge conflicts by reapplying local commits on top of remote changes.
+            git pull origin main --rebase
+
+            echo "Pushing changes to 'origin main'..."
+            # Pushes the current HEAD of the local branch to the 'main' branch on the remote repository.
+            # The GH_TOKEN (from secrets, passed via env var) is used for authentication.
+            git push https://x-access-token:${{ env.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
+            
+            echo "Changes pushed successfully."
+          fi
 
       - name: Run Binder Workflow
         uses: actions/github-script@v6
